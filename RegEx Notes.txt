@@ -1,0 +1,47 @@
+/(\w*?)([aeiouy]{2,})(\w*?)(ly|ing)\b/gi
+
+
+\b(\w([aeoiy]{2})\wly|ing)|(\w{2}([aeoiy]{2})ly)|(([aeoiy]{2})\w{2}ly|\wing)\b
+
+
+1.1.1 /\b(abb)(aa)*\b/ig
+
+1.1.2 /\b(a|ba*b)((a*b){2})*a*\b/ig
+
+1.1.3 /(?=\b\w{6}\b)(\w*?)([aeiouy]{2,})(\w*?)(ly|ing)\b/ig
+
+
+
+Ordmatchning - regex 1.1.3
+	Input: Strängpekare
+	Output: bool
+
+Filinläsning - fscanf(%s)
+	Input:Filpekare
+	Output: bool
+
+Lagring - hashtabell
+	Input: Sträng, tabell
+	Output: bool?
+	Matchar sträng som nyckel, om ej, lägger in sträng som nytt värde, annars inkrementerar
+
+Utskrift - till terminal
+	Input: tabell
+	Output: till terminal
+
+	Opt. Sortering
+		Input: tabell
+		Output:
+
+Skräddarsy tabell - omallokering och sortering
+
+Main
+
+while (inläsning(fil,c))
+	
+	if ordmatchning(c)
+		lagra(c)
+
+
+
+	
