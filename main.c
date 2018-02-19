@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
 #include "table.h"
 
 
@@ -13,6 +14,16 @@ void printWords(table *t);
 bool readFile(FILE *fp, char *str);
 
 bool stringcmp(void *str1, void *str2);
+
+//Tilagt 19/2 av Adam
+//Har inte testat att kompilera dessa funktioner, se det mer som ett utkast.
+FILE *openFile(char *file)
+
+void regexCompile(regex_t *regex);
+
+bool regexExecute(regex_t *regex, char *string);
+
+
 
 int main(int argc, char **argv){
 	table *t = table_empty(10, *stringcmp, NULL);
@@ -62,7 +73,7 @@ bool stringcmp(void *p1, void *p2){
 	int i = 0;
 	char *str1 = p1;
 	char *str2 = p2;
-	
+
 	while(str1[i] != 0){
 		if (str1[i] != str2[i]){
 			return 0;
@@ -73,4 +84,35 @@ bool stringcmp(void *p1, void *p2){
 		return 0;
 	}
 	return 1;
+}
+
+
+//Det är dessa funktioner som är otestade.
+FILE *openFile(char *file) {
+	FILE *fp = fopen(file, r);
+	if(fp == NULL) {
+		fprintf(stderr, "Couldn't open input file %s\n", file);
+		return NULL;
+	}
+	return fp;
+}
+
+void regexCompile(regex_t *regex) {
+	int result = 0;
+	result = regcomp(regex, "(?=\\b\\w{6}\\b)(\\w*?)([aeiouy]{2,})(\\w*?)(ly|ing)\\b",  REG_ICASE);
+	if(result) {
+		//Eftersom ingen kompilering har gjorts ligger denna printsats här utifall att det inte går att kompilera regex-uttrycket.
+		fprintf(stderr, "Couldn't compile regex \n");
+	}
+}
+
+bool regexExecute(regex_t *regex, char *string) {
+	int result = 0;
+	result = regexec(regex, string, 0, NULL, 0);
+	if(!result) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
