@@ -32,15 +32,13 @@ void storageFunc(table *t, char *str){
 }
 
 void printWords(table *t){
-	cell c;
-	int *v;
-	char *str;
+	char str[7];
+	int count;
 	table_sort(t);
-	for (int i = 0; i < t->size; i++){
-		c = t->arr[i];
-		v = c.val;
-		str = c.key;
-		fprintf(stdout, "%s %d\n", str, *v);
+	for (int i = 0; i < table_getSize(t); i++){
+		count = table_getEntry(t, str, i);
+		printf("%s %d\n", str, count);
+		
 	}
 }
 
