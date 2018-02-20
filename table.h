@@ -11,20 +11,7 @@ typedef bool (*key_compare_func)(KEY, KEY);
 typedef size_t (*key_hash_func)(KEY);
 typedef struct table table;
 
-//En struct för nyckel/värde-par
-typedef struct{
-	KEY key;
-	VALUE val;
-} cell;
 
-//Nyckel/värdepar sparas i en array vars storlek är definierad av capacitet
-struct table
-{
-	size_t cap;
-	size_t size;
-	cell *arr;
-	key_compare_func key_cmp;
-};
 
 /**
  * Create a dynamically allocated empty table.
@@ -98,5 +85,7 @@ void table_remove(table *t, KEY key);
 void table_kill(table *t);
 
 void table_sort(table *t);
+
+int table_getEntry(table *t, char *str, int idx);
 
 #endif

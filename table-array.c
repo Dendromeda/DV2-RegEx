@@ -1,9 +1,23 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "table.h"
 
 
+//En struct för nyckel/värde-par
+typedef struct{
+	KEY key;
+	VALUE val;
+} cell;
 
+//Nyckel/värdepar sparas i en array vars storlek är definierad av capacitet
+struct table
+{
+	size_t cap;
+	size_t size;
+	cell *arr;
+	key_compare_func key_cmp;
+};
 
 
 //Söker igenom tabellen och returnerar en pekare till rätt nyckel/värde-par. Returnrar NULL om nyckeln ej hittas
@@ -113,4 +127,11 @@ void table_sort(table *t){ // Specialiserad kod för DV2-OU2, sorterar celler ef
 			}
 		}
 	}
+}
+
+int table_getEntry(table *t, char *str, int idx){
+	cell c = t->arr[idx];
+	int *val = c.val;
+	strcpy(str, c.key);
+	return *val;
 }
