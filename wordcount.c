@@ -25,10 +25,7 @@ void main(int argc, char **argv){
 	regex_t *regex;
 	regexCompile(regex);
 	table *t = table_empty(5, *stringcmp, NULL);
-	
-	if (fp == NULL){
-		fprintf(stderr, "Error - Could not open %s\n", argv[2]);
-	}
+
 	while(readWord(fp, str)){
 		if (matchWord(regex, str)){
 			storageFunc(t, str);
@@ -58,7 +55,7 @@ void printWords(table *t){
 	for (int i = 0; i < table_getSize(t); i++){
 		count = table_getEntry(t, str, i);
 		printf("%s %d\n", str, count);
-		
+
 	}
 }
 
@@ -93,7 +90,6 @@ FILE *openFile(char *file){
 	if(fp == NULL) {
 		fprintf(stderr, "Couldn't open input file %s\n", file);
 		exit(0);
-		return NULL;
 	}
 	return fp;
 }
@@ -113,6 +109,7 @@ void regexCompile(regex_t *regex){
 	result = regcomp(regex, "([a-z])([aeiouy]{2,})([a-z]*)(ly|ing)$",  REG_ICASE|REG_EXTENDED);
 	if(result) {
 		fprintf(stderr, "Couldn't compile regex \n");
+		exit(0);
 	}
 }
 
