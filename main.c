@@ -15,8 +15,7 @@ bool readFile(FILE *fp, char *str);
 
 bool stringcmp(void *str1, void *str2);
 
-//Tilagt 19/2 av Adam
-//Har inte testat att kompilera dessa funktioner, se det mer som ett utkast.
+
 FILE *openFile(char *file)
 
 void regexCompile(regex_t *regex);

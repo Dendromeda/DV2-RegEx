@@ -20,12 +20,22 @@ int main(int argc, char **argv){
 } */
 
 void main(int argc, char **argv){
-	FILE *fp = openFile(argv[2]);
+	FILE *fp = openFile(argv[1]);
+	char *str;
+	regex_t *regex;
+	regexCompile(regex);
+	table *t = table_empty(5, *stringcmp, NULL);
+	
 	if (fp == NULL){
-		fprintf(srderr, "Error - Could not open %s", argv[2]);
+		fprintf(stderr, "Error - Could not open %s\n", argv[2]);
 	}
-	
-	
+	while(readWord(fp, str)){
+		if (matchWord(regex, str)){
+			storageFunc(t, str);
+		}
+	}
+	printWords(t);
+	table_kill(t);
 }
 
 void storageFunc(table *t, char *str){
@@ -52,7 +62,7 @@ void printWords(table *t){
 	}
 }
 
-bool readFile(FILE *fp, char *str){
+bool readWord(FILE *fp, char *str){
 	if (fscanf(fp, "%s", str))
 		return 1;
 	else
@@ -82,6 +92,7 @@ FILE *openFile(char *file){
 	FILE *fp = fopen(file, "r");
 	if(fp == NULL) {
 		fprintf(stderr, "Couldn't open input file %s\n", file);
+		exit(0);
 		return NULL;
 	}
 	return fp;
