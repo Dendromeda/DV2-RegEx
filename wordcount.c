@@ -18,6 +18,13 @@ int main(int argc, char **argv){
 	return 0;
 }
 
+void main(int argc, char **argv){
+	FILE *fp = openFile(argv[2]);
+	if (fp == NULL){
+		fprintf(srderr, "Error - Could not open %s", argv[2]);
+	}
+}
+
 void storageFunc(table *t, char *str){
 	int *val = table_lookup(t, str);
 	if (val != NULL){
@@ -77,9 +84,19 @@ FILE *openFile(char *file){
 	return fp;
 }
 
+// Otestad
+bool matchWord(regex_t *regex, char *str){
+	if (regexExecute(regex, str)){
+		if (strlen(str) == 7){
+			return true;
+		}
+	}
+	return false;
+}
+
 void regexCompile(regex_t *regex){
 	int result = 0;
-	result = regcomp(regex, "([a-z]*)([aeiouy]{2,})([a-z]*)(ly|ing)$",  REG_ICASE|REG_EXTENDED);
+	result = regcomp(regex, "([a-z])([aeiouy]{2,})([a-z]*)(ly|ing)$",  REG_ICASE|REG_EXTENDED);
 	if(result) {
 		fprintf(stderr, "Couldn't compile regex \n");
 	}

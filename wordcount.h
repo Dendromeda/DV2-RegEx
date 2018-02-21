@@ -16,6 +16,8 @@ bool stringcmp(void *str1, void *str2);
 //Har inte testat att kompilera dessa funktioner, se det mer som ett utkast.
 FILE *openFile(char *file);
 
+bool matchWord(regex_t *regex, char *str);
+
 void regexCompile(regex_t *regex);
 
 bool regexExecute(regex_t *regex, char *string);
