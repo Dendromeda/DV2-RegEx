@@ -23,10 +23,11 @@ void main(int argc, char **argv){
 	FILE *fp = openFile(argv[1]);
 	char *str[32];
 	regex_t regex;
-	regexCompile(&regex);
+	regexCompile(&regex, "([a-z])([aeiouy]{2,})([a-z]*)(ly|ing)$");
 	table *t = table_empty(5, *stringcmp, NULL);
 
 	while(readWord(fp, str)){
+		formatWord(str);
 		if(matchWord(&regex, str)){
 			storageFunc(t, str);
 		}
@@ -44,6 +45,7 @@ void storageFunc(table *t, char *str){
 	val = malloc(sizeof(int));
 	*val = 1;
 	char *key = malloc(sizeof(char)*7);
+	
 	strcpy(key, str);
 	table_insert(t,key,val);
 }
@@ -103,10 +105,29 @@ bool matchWord(regex_t *regex, char *str){
 	}
 	return false;
 }
+/* Teckenkoll funkar ej. Klarar ej av "'Really"
+ * 
+ */
+void formatWord(char *str){
+	regex_t regex;
+	regexCompile(&regex, "[^a-z]");
+	for (int i = 0; str[i]; i++){
+		str[i] = tolower(str[i]);
+		if (str[i] < 97 && str[i] > 122){
+			//for (int j = i; str[j]; j++){
+			int j = i;
+			while(str[j]) {
+				str[j] = str[j+1];
+				j++;
+			} 
+		}
+	}
+}
 
-void regexCompile(regex_t *regex){
+
+void regexCompile(regex_t *regex, char *strRegex){
 	int result = 0;
-	result = regcomp(regex, "([a-z])([aeiouy]{2,})([a-z]*)(ly|ing)$",  REG_ICASE|REG_EXTENDED);
+	result = regcomp(regex, strRegex,  REG_ICASE|REG_EXTENDED);
 	if(result) {
 		fprintf(stderr, "Couldn't compile regex \n");
 		exit(0);
