@@ -1,5 +1,6 @@
 #include "wordcount.h"
 
+/*
 int main(int argc, char **argv){
 	table *t = table_empty(10, *stringcmp, NULL);
 	char *str = "heeeeej";
@@ -16,13 +17,15 @@ int main(int argc, char **argv){
 	}
 	//system("pause");
 	return 0;
-}
+} */
 
 void main(int argc, char **argv){
 	FILE *fp = openFile(argv[2]);
 	if (fp == NULL){
 		fprintf(srderr, "Error - Could not open %s", argv[2]);
 	}
+	
+	
 }
 
 void storageFunc(table *t, char *str){
