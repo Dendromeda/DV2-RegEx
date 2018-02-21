@@ -63,7 +63,7 @@ bool table_is_empty(table *t)
 void table_insert(table *t, KEY key, VALUE val)
 {
 	if (t->size >= t->cap){ // Specialiserad kod för DV2-OU2
-		t->arr = realloc(t->arr, sizeof(cell)*5);
+		t->arr = realloc(t->arr, sizeof(cell)*(t->size + 5));
 		t->cap = t->cap+5;
 	}
 	cell *c = table_search(t,key);
@@ -78,7 +78,7 @@ void table_insert(table *t, KEY key, VALUE val)
 	c->key = key;
 	c->val = val;
 	t->size += 1;
-		
+
 }
 
 

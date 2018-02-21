@@ -21,13 +21,13 @@ int main(int argc, char **argv){
 
 void main(int argc, char **argv){
 	FILE *fp = openFile(argv[1]);
-	char *str;
-	regex_t *regex;
-	regexCompile(regex);
+	char *str[32];
+	regex_t regex;
+	regexCompile(&regex);
 	table *t = table_empty(5, *stringcmp, NULL);
 
 	while(readWord(fp, str)){
-		if (matchWord(regex, str)){
+		if(matchWord(&regex, str)){
 			storageFunc(t, str);
 		}
 	}
@@ -60,10 +60,10 @@ void printWords(table *t){
 }
 
 bool readWord(FILE *fp, char *str){
-	if (fscanf(fp, "%s", str))
-		return 1;
+	if(fscanf(fp, "%s", str) != EOF)
+		return true;
 	else
-		return 0;
+		return false;
 }
 
 bool stringcmp(void *p1, void *p2){
@@ -84,7 +84,7 @@ bool stringcmp(void *p1, void *p2){
 }
 
 
-//Det är dessa funktioner som är otestade.
+
 FILE *openFile(char *file){
 	FILE *fp = fopen(file, "r");
 	if(fp == NULL) {
@@ -94,10 +94,10 @@ FILE *openFile(char *file){
 	return fp;
 }
 
-// Otestad
+
 bool matchWord(regex_t *regex, char *str){
 	if (regexExecute(regex, str)){
-		if (strlen(str) == 7){
+		if (strlen(str) == 6){
 			return true;
 		}
 	}
@@ -122,8 +122,4 @@ bool regexExecute(regex_t *regex, char *string){
 	else {
 		return false;
 	}
-	/*bool result;
-		result = regexec(regex, string, 0, NULL, 0);
-		return result;
-	*/
 }
