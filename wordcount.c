@@ -44,14 +44,14 @@ void storageFunc(table *t, char *str){
 	}
 	val = malloc(sizeof(int));
 	*val = 1;
-	char *key = malloc(sizeof(char)*7);
-	
+	char *key = malloc(sizeof(char)*32);
+
 	strcpy(key, str);
 	table_insert(t,key,val);
 }
 
 void printWords(table *t){
-	char str[7];
+	char str[32];
 	int count;
 	table_sort(t);
 	for (int i = 0; i < table_getSize(t); i++){
@@ -99,29 +99,52 @@ FILE *openFile(char *file){
 
 bool matchWord(regex_t *regex, char *str){
 	if (regexExecute(regex, str)){
-		if (strlen(str) == 6){
+		/*if (strlen(str) == 6){
 			return true;
-		}
+		}*/
+		return true;
 	}
 	return false;
 }
 /* Teckenkoll funkar ej. Klarar ej av "'Really"
- * 
+ *
  */
 void formatWord(char *str){
 	regex_t regex;
-	regexCompile(&regex, "[^a-z]");
-	for (int i = 0; str[i]; i++){
-		str[i] = tolower(str[i]);
-		if (str[i] < 97 && str[i] > 122){
+	regexCompile(&regex, "[a-z]");
+	/*for (int i = 0; str[i]; i++){
+
+		//if (str[i] < 97 && str[i] > 122){
+		if(!regexExecute(&regex, &str[i])) {
 			//for (int j = i; str[j]; j++){
+			//printf("hej hopp\n");
 			int j = i;
 			while(str[j]) {
+				//printf("%c", str[j]);
 				str[j] = str[j+1];
+				//printf(" %c\n", str[j]);
 				j++;
-			} 
+			}
+		}
+		str[i] = tolower(str[i]);
+	}*/
+	int i = 0;
+	int j = 0;
+
+	char *temp[32];
+	while(str[i]) {
+		str[i] = tolower(str[i]);
+		if(str[i] < 97 || str[i] > 122) {
+		//if(!regexExecute(&regex, &str[i])) {
+			i++;
+		} else {
+			temp [j] = str[i];
+			i++;
+			j++;
 		}
 	}
+	printf("%s", temp);
+	strcpy(str, temp);
 }
 
 
