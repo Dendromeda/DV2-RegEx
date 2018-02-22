@@ -21,7 +21,7 @@ int main(int argc, char **argv){
 
 void main(int argc, char **argv){
 	FILE *fp = openFile(argv[1]);
-	char *str[32];
+	char *str = calloc(sizeof(char), 32);
 	regex_t regex;
 	regexCompile(&regex, "([a-z])([aeiouy]{2,})([a-z]*)(ly|ing)$");
 	table *t = table_empty(5, *stringcmp, NULL);
@@ -34,6 +34,7 @@ void main(int argc, char **argv){
 	}
 	printWords(t);
 	table_kill(t);
+	return 0;
 }
 
 void storageFunc(table *t, char *str){
@@ -99,10 +100,13 @@ FILE *openFile(char *file){
 
 bool matchWord(regex_t *regex, char *str){
 	if (regexExecute(regex, str)){
-		/*if (strlen(str) == 6){
+		if (stringcmp(str, "really")) {
+			printf("%s:  %d\n", str, strlen(str));
+		}
+		if (strlen(str) == 6){
 			return true;
-		}*/
-		return true;
+		}
+	//return true;
 	}
 	return false;
 }
@@ -131,7 +135,7 @@ void formatWord(char *str){
 	int i = 0;
 	int j = 0;
 
-	char *temp[32];
+	char *temp = calloc(sizeof(char), 32);
 	while(str[i]) {
 		str[i] = tolower(str[i]);
 		if(str[i] < 97 || str[i] > 122) {
@@ -143,7 +147,6 @@ void formatWord(char *str){
 			j++;
 		}
 	}
-	printf("%s", temp);
 	strcpy(str, temp);
 }
 
