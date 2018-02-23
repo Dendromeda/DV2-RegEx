@@ -13,8 +13,8 @@ typedef struct{
 //Nyckel/värdepar sparas i en array vars storlek är definierad av capacitet
 struct table
 {
-	size_t cap;
-	size_t size;
+	int cap;
+	int size;
 	cell *arr;
 	key_compare_func key_cmp;
 };
@@ -39,7 +39,7 @@ void cell_replace(cell *c1, cell *c2){
 	c1->val = c2->val;
 }
 
-table *table_empty(int capacity, key_compare_func cmp, key_hash_func hash)
+table *table_empty(int capacity, key_compare_func cmp)
 {
     table *t;
     t = malloc(sizeof *t);

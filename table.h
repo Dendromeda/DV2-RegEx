@@ -18,12 +18,12 @@ typedef struct table table;
  *
  * Free resources by calling table_kill().
  *
- * \param [in] capacity The capacity of the underlying data structure (if applicable). 
+ * \param [in] capacity The capacity of the underlying data structure (if applicable).
  * \param [in] cmp The key compare function (tests key equality).
  * \param [in] hash The key hash function (may be NULL if not a hash table).
  * \return A dynamically allocated empty table.
  */
-table *table_empty(int capacity, key_compare_func cmp, key_hash_func hash);
+table *table_empty(int capacity, key_compare_func cmp);
 
 
 /**
