@@ -31,6 +31,7 @@ int main(int argc, char **argv){
 	}
 	printWords(t);
 
+	regfree(&regex);
 	table_kill(t);
 	free(str);
 	return 0;
