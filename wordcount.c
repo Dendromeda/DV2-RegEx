@@ -98,7 +98,7 @@ FILE *openFile(char *file){
 	FILE *fp = fopen(file, "r");
 	if(fp == NULL) {
 		fprintf(stderr, "Couldn't open input file %s\n", file);
-		exit(0);
+		exit(2);
 	}
 	return fp;
 }
@@ -141,7 +141,7 @@ void regexCompile(regex_t *regex, char *strRegex){
 	result = regcomp(regex, strRegex,  REG_ICASE|REG_EXTENDED);
 	if(result) {
 		fprintf(stderr, "Couldn't compile regex \n");
-		exit(0);
+		exit(3);
 	}
 }
 
@@ -164,5 +164,5 @@ void usageText(void){
 	printf("the default regex will be used.\n");
 	printf("Wordlength input is optional. If no length is given ");
 	printf("the default length will be used.\n\n");
-	exit(0);
+	exit(1);
 }
