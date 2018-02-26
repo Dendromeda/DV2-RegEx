@@ -1,19 +1,23 @@
 #include "wordcount.h"
 
+#define WORD_LENGTH 6
+
 int main(int argc, char **argv){
 	regex_t regex;
+	bool wordRead;
 	size_t length = validateParams(argc, argv, &regex);
 	FILE *fp = openFile(argv[1]);
-	char *str = calloc(sizeof(char), 32);
+	char *str = calloc(sizeof(char), 64);
 
 	table *t = table_empty(5, *stringcmp);
 
-	while(readWord(fp, str)) {
-		formatWord(str);
+	do {
+		wordRead = readWord(fp, str);
+		//formatWord(str);
 		if(matchWord(&regex, str, length)) {
 			storageFunc(t, str);
 		}
-	}
+	} while(wordRead);
 	printWords(t);
 
 	fclose(fp);
@@ -37,7 +41,7 @@ int validateParams(int argc, char **argv, regex_t *regex){
 	if(argc == 4) {
 		return atoi(argv[3]);
 	} else {
-		return 6;
+		return WORD_LENGTH;
 	}
 }
 
@@ -68,11 +72,27 @@ void printWords(table *t){
 }
 
 bool readWord(FILE *fp, char *str){
-	if(fscanf(fp, "%s", str) != EOF) {
+	/*if(fscanf(fp, "%s", str) != EOF) {
 		return true;
 	} else {
 		return false;
+	}*/
+	int i = 0;
+	char *temp = calloc(sizeof(char), 64);
+	char c = fgetc(fp);
+	c = tolower(c);
+	while((c >= 97 && c <= 122)){
+		temp[i++] = c;
+		c = fgetc(fp);
+		c = tolower(c);
 	}
+	temp[i] = '\0';
+	strcpy(str, temp);
+	free(temp);
+	if (c == EOF){
+		return false;
+	}
+	return true;
 }
 
 bool stringcmp(void *p1, void *p2){
