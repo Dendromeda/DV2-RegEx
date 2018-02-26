@@ -5,6 +5,8 @@
 #include <ctype.h>
 #include "table.h"
 
+int validateParams(int argc, char **argv, regex_t *regex);
+
 void storageFunc(table *t, char *str);
 
 void printWords(table *t);

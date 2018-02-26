@@ -1,25 +1,10 @@
 #include "wordcount.h"
 
 int main(int argc, char **argv){
-	if(argc < 2 || argc > 4) {
-		usageText();
-	}
-
+	regex_t regex;
+	size_t length = validateParams(argc, argv, &regex);
 	FILE *fp = openFile(argv[1]);
 	char *str = calloc(sizeof(char), 32);
-	size_t length = 6;
-	regex_t regex;
-
-
-	if(argc >= 3) {
-		regexCompile(&regex, argv[2]);
-	} else {
-		regexCompile(&regex, "([a-z])([aeiouy]{2,})([a-z]*)(ly|ing)$");
-	}
-
-	if(argc == 4) {
-		length = atoi(argv[3]);
-	}
 
 	table *t = table_empty(5, *stringcmp);
 
@@ -31,10 +16,29 @@ int main(int argc, char **argv){
 	}
 	printWords(t);
 
+	fclose(fp);
 	regfree(&regex);
 	table_kill(t);
 	free(str);
 	return 0;
+}
+
+int validateParams(int argc, char **argv, regex_t *regex){
+	if(argc < 2 || argc > 4) {
+		usageText();
+	}
+
+	if(argc >= 3) {
+		regexCompile(regex, argv[2]);
+	} else {
+		regexCompile(regex, "([a-z]*)([aeiouy]{2,})([a-z]*)(ly|ing)$");
+	}
+
+	if(argc == 4) {
+		return atoi(argv[3]);
+	} else {
+		return 6;
+	}
 }
 
 void storageFunc(table *t, char *str){
@@ -66,8 +70,7 @@ void printWords(table *t){
 bool readWord(FILE *fp, char *str){
 	if(fscanf(fp, "%s", str) != EOF) {
 		return true;
-	}
-	else {
+	} else {
 		return false;
 	}
 }
@@ -83,7 +86,6 @@ bool stringcmp(void *p1, void *p2){
 		}
 		i++;
 	}
-
 	if (str2[i] != 0) {
 		return 0;
 	}
@@ -149,8 +151,7 @@ bool regexExecute(regex_t *regex, char *string){
 	result = regexec(regex, string, 0, NULL, 0);
 	if(!result) {
 		return true;
-	}
-	else {
+	} else {
 		return false;
 	}
 }
