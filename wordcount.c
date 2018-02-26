@@ -77,7 +77,7 @@ bool readWord(FILE *fp, char *str){
 	char c = fgetc(fp);
 	c = tolower(c);
 
-	while((c >= 97 && c <= 122)){
+	while((c >= 'a' && c <= 'z')){
 		temp[i++] = c;
 		c = fgetc(fp);
 		c = tolower(c);
