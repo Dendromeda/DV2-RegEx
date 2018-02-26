@@ -44,6 +44,11 @@ int validateParams(int argc, char **argv, regex_t *regex){
 	}
 }
 
+/*Function storageFunc
+Searches table for string, if present, increments the value stored.
+If not, creates new string and value, and inserts into tabLength
+Made for storing values matching requirements
+*/
 void storageFunc(table *t, char *str){
 	int *val = table_lookup(t, str);
 	if (val != NULL) {
@@ -58,7 +63,10 @@ void storageFunc(table *t, char *str){
 	strcpy(key, str);
 	table_insert(t,key,val);
 }
-
+/* Function printWords
+Sorts table containing words and frequency.
+Prints out now sorted words and frequency
+*/
 void printWords(table *t){
 	char str[32];
 	int count;
@@ -70,6 +78,11 @@ void printWords(table *t){
 	}
 }
 
+/* Function readWord
+Reads characters from file until it encounters a non-letter character, adding
+them to string temp. When encountering non-letter character, copies string
+to given string pointer
+*/
 bool readWord(FILE *fp, char *str){
 	int i = 0;
 	char *temp = calloc(sizeof(char), 64);
@@ -93,6 +106,9 @@ bool readWord(FILE *fp, char *str){
 	return true;
 }
 
+/* Function stringcmp
+Compares two string to eachother. Returns bool if identical
+*/
 bool stringcmp(void *p1, void *p2){
 	int i = 0;
 	char *str1 = p1;
@@ -110,8 +126,9 @@ bool stringcmp(void *p1, void *p2){
 	return 1;
 }
 
-
-
+/* Function openFile
+Tries to open file, exits program if not possibilities
+*/
 FILE *openFile(char *file){
 	FILE *fp = fopen(file, "r");
 	if(fp == NULL) {
@@ -121,7 +138,9 @@ FILE *openFile(char *file){
 	return fp;
 }
 
-
+/* Function matchWord
+Tries to match given string to a regular expression, returns true if match
+*/
 bool matchWord(regex_t *regex, char *str, size_t length){
 	if (regexExecute(regex, str)) {
 		if (strlen(str) == length) {
@@ -131,6 +150,9 @@ bool matchWord(regex_t *regex, char *str, size_t length){
 	return false;
 }
 
+/* Function regexCompile
+Tries to compile given regular expression, exits program if not able
+*/
 void regexCompile(regex_t *regex, char *strRegex){
 	int result = 0;
 
@@ -140,7 +162,9 @@ void regexCompile(regex_t *regex, char *strRegex){
 		exit(3);
 	}
 }
-
+/* Function regexExecute
+Checks string against given regular exression, returns true if match
+*/
 bool regexExecute(regex_t *regex, char *string){
 	int result;
 
@@ -152,6 +176,9 @@ bool regexExecute(regex_t *regex, char *string){
 	}
 }
 
+/* Function usageText
+Prints program argument syntax
+*/
 void usageText(void){
     printf("\nUSAGE:\n");
     printf("wordcount [FILE] [REGEX] [WORDLENGTH]\n\n");
