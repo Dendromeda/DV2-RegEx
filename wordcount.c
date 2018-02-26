@@ -13,7 +13,6 @@ int main(int argc, char **argv){
 
 	do {
 		wordRead = readWord(fp, str);
-		//formatWord(str);
 		if(matchWord(&regex, str, length)) {
 			storageFunc(t, str);
 		}
@@ -72,23 +71,22 @@ void printWords(table *t){
 }
 
 bool readWord(FILE *fp, char *str){
-	/*if(fscanf(fp, "%s", str) != EOF) {
-		return true;
-	} else {
-		return false;
-	}*/
 	int i = 0;
 	char *temp = calloc(sizeof(char), 64);
+
 	char c = fgetc(fp);
 	c = tolower(c);
+
 	while((c >= 97 && c <= 122)){
 		temp[i++] = c;
 		c = fgetc(fp);
 		c = tolower(c);
 	}
+
 	temp[i] = '\0';
 	strcpy(str, temp);
 	free(temp);
+
 	if (c == EOF){
 		return false;
 	}
@@ -132,28 +130,6 @@ bool matchWord(regex_t *regex, char *str, size_t length){
 	}
 	return false;
 }
-
-
-void formatWord(char *str){
-	int i = 0;
-	int j = 0;
-
-	char *temp = calloc(sizeof(char), 32);
-	while(str[i]) {
-		str[i] = tolower(str[i]);
-		if(str[i] < 97 || str[i] > 122) {
-			i++;
-		} else {
-			temp [j] = str[i];
-			i++;
-			j++;
-		}
-	}
-
-	strcpy(str, temp);
-	free(temp);
-}
-
 
 void regexCompile(regex_t *regex, char *strRegex){
 	int result = 0;

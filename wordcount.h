@@ -19,8 +19,6 @@ FILE *openFile(char *file);
 
 bool matchWord(regex_t *regex, char *str, size_t length);
 
-void formatWord(char *str);
-
 void regexCompile(regex_t *regex, char *strRegex);
 
 bool regexExecute(regex_t *regex, char *string);
