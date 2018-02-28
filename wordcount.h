@@ -18,7 +18,7 @@ Limitations: If used with languages that have words longer than 32 characters.
 #include <string.h>
 #include <regex.h>
 #include <ctype.h>
-#include "table.h"
+#include "table-array.h"
 
 //Change this defined constant if expecting words longer than 32 characters.
 #define STRING_LENGTH 32

@@ -9,7 +9,7 @@ wordcount: wordcount.o table-array.o
 wordcount.o: wordcount.c wordcount.h
 	$(CC) $(CFLAGS) -c wordcount.c
 
-table-array.o: table-array.c table.h
+table-array.o: table-array.c table-array.h
 	$(CC) $(CFLAGS) -c table-array.c
 
 .PHONY: clean
