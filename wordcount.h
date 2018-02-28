@@ -69,7 +69,7 @@ bool readWord(FILE *fp, char *str);
 
 
 /* Function:	stringcmp
- * Description:	Compares to strings, returns true if identical.
+ * Description:	Compares two strings, returns true if identical.
  * Input:		Two strings.
  * Output:		Boolean.
  */
