@@ -19,6 +19,39 @@ struct table
 	key_compare_func key_cmp;
 };
 
+// ------  Custom code for DV2-OU2  ------
+
+void table_sort(table *t){
+	cell tmp;
+	for (int i = t->size-1; i >= 0; i--){
+		for (int j = 0; j < i; j++){
+			int *v1 = t->arr[j].val;
+			int *v2 = t->arr[j+1].val;
+			if (*v1 < *v2){
+				tmp = t->arr[j];
+				t->arr[j] = t->arr[j+1];
+				t->arr[j+1] = tmp;
+			}
+		}
+	}
+}
+
+
+int table_getEntry(table *t, char *str, int idx){
+	cell c = t->arr[idx];
+	int *val = c.val;
+	strcpy(str, c.key);
+	return *val;
+}
+
+
+int table_getSize(table *t){
+	return t->size;
+}
+
+
+// ------ End of custom code  ------
+
 
 //Söker igenom tabellen och returnerar en pekare till rätt nyckel/värde-par. Returnrar NULL om nyckeln ej hittas
 cell *table_search(table *t,KEY key){
@@ -50,9 +83,6 @@ table *table_empty(int capacity, key_compare_func cmp)
     return t;
 }
 
-int table_getSize(table *t){
-	return t->size;
-}
 
 bool table_is_empty(table *t)
 {
@@ -112,26 +142,4 @@ void table_kill(table *t)
 	}
     free(t->arr);
     free(t);
-}
-
-void table_sort(table *t){ // Specialiserad kod för DV2-OU2, sorterar celler efter värde (pekare till int) i fallande ordning
-	cell tmp;
-	for (int i = t->size-1; i >= 0; i--){
-		for (int j = 0; j < i; j++){
-			int *v1 = t->arr[j].val;
-			int *v2 = t->arr[j+1].val;
-			if (*v1 < *v2){
-				tmp = t->arr[j];
-				t->arr[j] = t->arr[j+1];
-				t->arr[j+1] = tmp;
-			}
-		}
-	}
-}
-
-int table_getEntry(table *t, char *str, int idx){
-	cell c = t->arr[idx];
-	int *val = c.val;
-	strcpy(str, c.key);
-	return *val;
 }

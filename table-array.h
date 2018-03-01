@@ -12,6 +12,31 @@ typedef size_t (*key_hash_func)(KEY);
 typedef struct table table;
 
 
+// ------  Custom functions for DV2-OU2  ------
+
+/* Function:	table_sort
+ * Description: Sorts the given table according to the values
+ 				in declining order.
+ * Input:		A table.
+ * Output:		An integer.
+ */
+ void table_sort(table *t);
+
+ /* Function:	 table_getEntry
+  * Description: Returns the value and key from a given index in the table.
+  * Input:		 A table, a string and an integer with the index.
+  * Output:		 An integer.
+  */
+ int table_getEntry(table *t, char *str, int idx);
+
+ /* Function:	 table_getSize
+  * Description: Returns the size of the table.
+  * Input:		 A table.
+  * Output:		 An integer.
+  */
+ int table_getSize(table *t);
+
+// ------ End of custom code  ------
 
 /**
  * Create a dynamically allocated empty table.
@@ -33,8 +58,6 @@ table *table_empty(int capacity, key_compare_func cmp);
  * \return True if the table is empty.
  */
 bool table_is_empty(table *t);
-
-int table_getSize(table *t);
 
 
 /**
@@ -83,9 +106,5 @@ void table_remove(table *t, KEY key);
  * \param [in] t The table to deallocate.
  */
 void table_kill(table *t);
-
-void table_sort(table *t);
-
-int table_getEntry(table *t, char *str, int idx);
 
 #endif
