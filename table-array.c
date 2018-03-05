@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "table.h"
+#include "table-array.h"
 
 
 //En struct för nyckel/värde-par
